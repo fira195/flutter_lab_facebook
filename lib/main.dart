@@ -2,8 +2,12 @@ import 'package:facebook/login.dart';
 import 'package:flutter/material.dart';
 import './homepage.dart';
 import './login.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(const MyApp());
 }
 
@@ -48,4 +52,3 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
-

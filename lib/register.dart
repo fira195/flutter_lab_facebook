@@ -2,6 +2,7 @@ import 'package:facebook/login.dart';
 import 'package:flutter/material.dart';
 import './login.dart';
 import './homepage.dart';
+import './auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -16,6 +17,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  final AuthService _authService = AuthService();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: "hint",
+                  hintText: "....",
                   filled: true,
                   fillColor: Colors.grey.shade100,
                   border: OutlineInputBorder(
@@ -89,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: "hint",
+                  hintText: "....",
                   filled: true,
                   fillColor: Colors.grey.shade100,
                   border: OutlineInputBorder(
@@ -111,13 +114,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: () {
-                    // TEMP REGISTER ACTION
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (_) => const HomePage()),
-                      (route) => false,
-                    );
+                  onPressed: () async {
+                    if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Passwords do not match")),
+                      );
+                      return;
+                    }
+
+                    try {
+                      await AuthService().register(
+                        emailController.text.trim(),
+                        passwordController.text.trim(),
+                      );
+
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (_) => const HomePage()),
+                        (route) => false,
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(e.toString())));
+                    }
                   },
                   child: const Text(
                     "Sign Up",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './homepage.dart';
 import './register.dart ';
+import './auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,6 +13,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -62,20 +65,34 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              onPressed: () {
-                // TEMP LOGIN ACTION
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const HomePage()),
-                );
+              onPressed: () async {
+                setState(() => isLoading = true);
+
+                try {
+                  await _authService.login(
+                    emailController.text.trim(),
+                    passwordController.text.trim(),
+                  );
+
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HomePage()),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text(e.toString())));
+                }
+
+                setState(() => isLoading = false);
               },
+
               child: const Text(
                 "Log In",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
           ),
-
 
           const SizedBox(height: 30),
 
@@ -113,25 +130,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-//   Widget _createAccountButton() {
-//     return SizedBox(
-//       width: double.infinity,
-//       height: 48,
-//       child: OutlinedButton(
-//         style: OutlinedButton.styleFrom(
-//           side: const BorderSide(color: Color(0xFF1877F2)),
-//           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-//         ),
-//         onPressed: () {},
-//         child: const Text(
-//           "Create new account",
-//           style: TextStyle(
-//             color: Color(0xFF1877F2),
-//             fontWeight: FontWeight.bold,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
