@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "147401763990",
+    "project_id": "flutterlabfacebook",
+    "storage_bucket": "flutterlabfacebook.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:147401763990:android:d678a5041209728648a6b7",
+        "android_client_info": {
+          "package_name": "com.example.facebook"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgHNTo3oxqFn5cl3bEbma8Ku85mvsMaQE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
