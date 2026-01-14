@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 48,
                           child: ElevatedButton.icon(
                             icon: Image.asset(
-                              'assets/google_logo.png', // put a small Google logo in your assets
+                              'assets/google.png', // put a small Google logo in your assets
                               height: 24,
                               width: 24,
                             ),
